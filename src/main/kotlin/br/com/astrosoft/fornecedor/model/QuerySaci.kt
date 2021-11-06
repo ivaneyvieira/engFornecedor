@@ -1,10 +1,7 @@
 package br.com.astrosoft.fornecedor.model
 
 import br.com.astrosoft.devolucao.model.NotaEntradaVO
-import br.com.astrosoft.fornecedor.model.beans.Funcionario
-import br.com.astrosoft.fornecedor.model.beans.Loja
-import br.com.astrosoft.fornecedor.model.beans.Representante
-import br.com.astrosoft.fornecedor.model.beans.UserSaci
+import br.com.astrosoft.fornecedor.model.beans.*
 import br.com.astrosoft.framework.model.Config.appName
 import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
@@ -65,11 +62,6 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }.firstOrNull()
   }
 
-  fun deleteFornecedorSap() {
-    val sql = "/sqlSaci/deleteFornecedorSap.sql"
-    script(sql)
-  }
-
   fun saveNotaNdd(notas: List<NotaEntradaVO>) {
     val sql = "/sqlSaci/saveNotaNdd.sql"
     script(sql, notas.map { nota ->
@@ -98,6 +90,14 @@ class QuerySaci : QueryDB(driver, url, username, password) {
         q.addOptionalParameter("xmlDadosAdicionais", nota.xmlDadosAdicionais)
       }
     })
+  }
+
+
+  fun findFornecedores(filtro : FiltroFornecedor): List<Fornecedor> {
+    val sql = "/sqlSaci/findFornecedor.sql"
+    return query(sql, Fornecedor::class){
+      this.addOptionalParameter("query", filtro.query)
+    }
   }
 
   companion object {

@@ -14,7 +14,7 @@ import com.vaadin.flow.theme.lumo.Lumo
 @Theme(value = Lumo::class, variant = Lumo.DARK)
 @Push
 @JsModule("./styles/shared-styles.js")
-class DevFornecedorLayout : MainLayout() {
+class EngFornecedorLayout : MainLayout() {
   override fun Tabs.menuConfig() {
     menuRoute(FORM, "Fornecedor", FornecedorView::class)
     menuRoute(USER, "Usuário", UsuarioView::class, Config.isAdmin)

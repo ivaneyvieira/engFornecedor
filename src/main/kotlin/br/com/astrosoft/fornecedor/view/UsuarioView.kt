@@ -14,7 +14,7 @@ import org.vaadin.crudui.crud.CrudOperation
 import org.vaadin.crudui.crud.CrudOperation.*
 import org.vaadin.crudui.crud.impl.GridCrud
 
-@Route(layout = DevFornecedorLayout::class)
+@Route(layout = EngFornecedorLayout::class)
 @PageTitle("Usuário")
 class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
   override val viewModel = UsuarioViewModel(this)

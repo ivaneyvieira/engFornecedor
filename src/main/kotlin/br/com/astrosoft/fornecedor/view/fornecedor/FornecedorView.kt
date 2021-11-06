@@ -1,7 +1,7 @@
 package br.com.astrosoft.fornecedor.view.fornecedor
 
 import br.com.astrosoft.fornecedor.model.beans.UserSaci
-import br.com.astrosoft.fornecedor.view.DevFornecedorLayout
+import br.com.astrosoft.fornecedor.view.EngFornecedorLayout
 import br.com.astrosoft.fornecedor.viewmodel.fornecedor.FornecedorViewModel
 import br.com.astrosoft.fornecedor.viewmodel.fornecedor.IFornecedorView
 import br.com.astrosoft.framework.model.IUser
@@ -10,7 +10,7 @@ import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.router.PageTitle
 import com.vaadin.flow.router.Route
 
-@Route(layout = DevFornecedorLayout::class)
+@Route(layout = EngFornecedorLayout::class, value = "")
 @PageTitle("Fornecedor")
 @CssImport("./styles/gridTotal.css")
 class FornecedorView : ViewLayout<FornecedorViewModel>(), IFornecedorView {
