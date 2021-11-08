@@ -12,7 +12,7 @@ class TabFornecedorListViewModel(val viewModel: FornecedorViewModel) {
     subView.updateFiltro(list)
   }
 
-  val subView
+  private val subView
     get() = viewModel.view.tabFornecedorList
 }
 

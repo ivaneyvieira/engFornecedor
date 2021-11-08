@@ -92,11 +92,17 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     })
   }
 
-
   fun findFornecedores(filtro : FiltroFornecedor): List<Fornecedor> {
     val sql = "/sqlSaci/findFornecedor.sql"
     return query(sql, Fornecedor::class){
       this.addOptionalParameter("query", filtro.query)
+    }
+  }
+
+  fun findNotas(filtro : FiltroNotaEntrada): List<NotaEntrada> {
+    val sql = "/sqlSaci/findNotaEntrada.sql"
+    return query(sql, NotaEntrada::class){
+      this.addOptionalParameter("vendno", filtro.vendno)
     }
   }
 
