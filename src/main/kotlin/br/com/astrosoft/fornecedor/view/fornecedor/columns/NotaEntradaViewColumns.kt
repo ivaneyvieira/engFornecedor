@@ -9,6 +9,10 @@ import br.com.astrosoft.framework.view.addColumnString
 import com.vaadin.flow.component.grid.Grid
 
 object NotaEntradaViewColumns {
+  fun Grid<NotaEntrada>.notaNI() = addColumnInt(NotaEntrada::invno) {
+    this.setHeader("NI")
+  }
+
   fun Grid<NotaEntrada>.notaLoja() = addColumnInt(NotaEntrada::loja) {
     this.setHeader("Loja")
   }

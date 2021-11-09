@@ -107,6 +107,51 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
+  //Files
+  fun insertFile(file: NFFile) {
+    val sql = "/sqlSaci/fileInsert.sql"
+    script(sql) {
+      addOptionalParameter("storeno", file.storeno)
+      addOptionalParameter("pdvno", file.pdvno)
+      addOptionalParameter("xano", file.xano)
+      addOptionalParameter("date", file.date.toSaciDate())
+      addOptionalParameter("nome", file.nome)
+      addOptionalParameter("file", file.file)
+    }
+  }
+
+  fun updateFile(file: NFFile) {
+    val sql = "/sqlSaci/fileUpdate.sql"
+    script(sql) {
+      addOptionalParameter("storeno", file.storeno)
+      addOptionalParameter("pdvno", file.pdvno)
+      addOptionalParameter("xano", file.xano)
+      addOptionalParameter("date", file.date.toSaciDate())
+      addOptionalParameter("nome", file.nome)
+      addOptionalParameter("file", file.file)
+    }
+  }
+
+  fun deleteFile(file: NFFile) {
+    val sql = "/sqlSaci/fileDelete.sql"
+    script(sql) {
+      addOptionalParameter("storeno", file.storeno)
+      addOptionalParameter("pdvno", file.pdvno)
+      addOptionalParameter("xano", file.xano)
+      addOptionalParameter("date", file.date.toSaciDate())
+      addOptionalParameter("nome", file.nome)
+    }
+  }
+
+  fun selectFile(nfs: NotaEntrada): List<NFFile> {
+    val sql = "/sqlSaci/fileSelect.sql"
+    return  query(sql, NFFile::class) {
+      addOptionalParameter("storeno", nfs.loja)
+      addOptionalParameter("pdvno", 8888)
+      addOptionalParameter("xano", nfs.invno)
+    }
+  }
+
   companion object {
     private val db = DB("saci")
     internal val driver = db.driver

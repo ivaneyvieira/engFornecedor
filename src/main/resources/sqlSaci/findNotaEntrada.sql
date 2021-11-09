@@ -1,4 +1,5 @@
-SELECT I.storeno                                                                  AS loja,
+SELECT I.invno                                                                    AS invno,
+       I.storeno                                                                  AS loja,
        S.otherName                                                                AS siglaLoja,
        CAST(I.issue_date AS DATE)                                                 AS dataNF,
        CAST(CONCAT(I.nfname, IF(I.invse = '', '', CONCAT('/', I.invse))) AS CHAR) AS nota,
@@ -10,4 +11,5 @@ FROM sqldados.inv           AS I
 	       ON S.no = I.storeno
 WHERE I.bits & POW(2, 4) = 0
   AND I.auxShort13 & POW(2, 15) = 0
-  AND I.vendno = :vendno AND (I.storeno = :loja OR :loja = 0)
+  AND I.vendno = :vendno
+  AND (I.storeno = :loja OR :loja = 0)
