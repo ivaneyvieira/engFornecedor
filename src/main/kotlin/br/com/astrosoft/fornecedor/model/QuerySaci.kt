@@ -103,6 +103,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/findNotaEntrada.sql"
     return query(sql, NotaEntrada::class){
       this.addOptionalParameter("vendno", filtro.vendno)
+      this.addOptionalParameter("loja", filtro.loja ?: 0)
     }
   }
 

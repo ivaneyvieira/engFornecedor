@@ -12,4 +12,4 @@ class NotaEntrada(
   val vendno: Int,
                  )
 
-data class FiltroNotaEntrada(val vendno: Int)
+data class FiltroNotaEntrada(val vendno: Int, val loja : Int?)

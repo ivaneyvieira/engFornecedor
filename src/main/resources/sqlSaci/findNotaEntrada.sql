@@ -10,4 +10,4 @@ FROM sqldados.inv           AS I
 	       ON S.no = I.storeno
 WHERE I.bits & POW(2, 4) = 0
   AND I.auxShort13 & POW(2, 15) = 0
-  AND I.vendno = :vendno
+  AND I.vendno = :vendno AND (I.storeno = :loja OR :loja = 0)

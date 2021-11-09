@@ -18,5 +18,5 @@ class TabFornecedorListViewModel(val viewModel: FornecedorViewModel) {
 
 interface ITabFornecedorList : ITabView{
   fun filtro() : FiltroFornecedor
-  fun updateFiltro(list: List<Fornecedor>)
+  fun updateFiltro(list: List<Fornecedor>, )
 }

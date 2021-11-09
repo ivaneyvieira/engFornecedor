@@ -10,6 +10,10 @@ object FornecedorViewColumns {
     this.setHeader("Fornecedor")
   }
 
+  fun Grid<Fornecedor>.fornecedorLoja() = addColumnInt(Fornecedor::loja) {
+    this.setHeader("Loja")
+  }
+
   fun Grid<Fornecedor>.fornecedorCliente() = addColumnInt(Fornecedor::custno) {
     this.setHeader("Cliente")
   }

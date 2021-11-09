@@ -1,6 +1,6 @@
 DO @QUERY := :query;
 DO @QUERYLIKE := CONCAT(@QUERY, '%');
-DO @QUERYNUM := IF(@QUERY LIKE '^[0-9]+$', @QUERY * 1, 0);
+DO @QUERYNUM := IF(@QUERY REGEXP '^[0-9]+$', @QUERY * 1, 0);
 
 DROP TEMPORARY TABLE IF EXISTS sqldados.T_VEND;
 CREATE TEMPORARY TABLE sqldados.T_VEND (
@@ -8,7 +8,7 @@ CREATE TEMPORARY TABLE sqldados.T_VEND (
 )
 SELECT V.no,
        V.auxLong4,
-       V.name ,
+       V.name,
        V.email,
        V.remarks,
        V.cgc
@@ -17,16 +17,34 @@ FROM sqldados.vend            AS V
 	       ON VG.vendno = V.no
   INNER JOIN sqldados.vendgr  AS G
 	       ON G.no = VG.vendgrno AND G.name = 'SERVICO'
-WHERE (V.no = @QUERYNUM) OR (V.name LIKE @QUERYLIKE) OR (@QUERY = '');
+WHERE (V.no = @QUERYNUM)
+   OR (V.name LIKE @QUERYLIKE AND @QUERYNUM != 0)
+   OR (@QUERY = '');
 
+DROP TEMPORARY TABLE IF EXISTS sqldados.T_FORNECEDOR;
+CREATE TEMPORARY TABLE sqldados.T_FORNECEDOR (
+  PRIMARY KEY (vendno)
+)
 SELECT V.no            AS vendno,
        IFNULL(C.no, 0) AS custno,
        V.name          AS fornecedor,
-       V.auxLong4      AS fornecedorSap,
-       V.email         AS email,
        V.remarks       AS obs
 FROM sqldados.T_VEND       AS V
   LEFT JOIN sqldados.custp AS C
 	      ON C.cpf_cgc = V.cgc
-GROUP BY vendno
+GROUP BY vendno;
+
+SELECT F.vendno,
+       F.custno,
+       F.fornecedor,
+       F.obs,
+       I.storeno             AS loja
+FROM sqldados.inv                  AS I
+  INNER JOIN sqldados.T_FORNECEDOR AS F
+	       USING (vendno)
+WHERE I.bits & POW(2, 4) = 0
+  AND I.auxShort13 & POW(2, 15) = 0
+GROUP BY vendno, storeno
+
+
 
