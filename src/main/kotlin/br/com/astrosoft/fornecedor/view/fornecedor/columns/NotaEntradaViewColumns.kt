@@ -1,10 +1,7 @@
 package br.com.astrosoft.fornecedor.view.fornecedor.columns
 
 import br.com.astrosoft.fornecedor.model.beans.NotaEntrada
-import br.com.astrosoft.framework.view.addColumnDouble
-import br.com.astrosoft.framework.view.addColumnInt
-import br.com.astrosoft.framework.view.addColumnLocalDate
-import br.com.astrosoft.framework.view.addColumnString
+import br.com.astrosoft.framework.view.*
 import com.vaadin.flow.component.grid.Grid
 
 object NotaEntradaViewColumns {
@@ -18,14 +15,17 @@ object NotaEntradaViewColumns {
 
   fun Grid<NotaEntrada>.notaDataEntrada() = addColumnLocalDate(NotaEntrada::dataEntrada) {
     this.setHeader("Entrada")
+    this.center()
   }
 
   fun Grid<NotaEntrada>.notaDataEmissao() = addColumnLocalDate(NotaEntrada::dataEmissao) {
     this.setHeader("Emissão")
+    this.center()
   }
 
   fun Grid<NotaEntrada>.notaNota() = addColumnString(NotaEntrada::nota) {
     this.setHeader("Nota Fiscal")
+    this.right()
   }
 
   fun Grid<NotaEntrada>.notaObservacao() = addColumnString(NotaEntrada::obs) {
@@ -42,14 +42,17 @@ object NotaEntradaViewColumns {
 
   fun Grid<NotaEntrada>.notaConsumo() = addColumnString(NotaEntrada::consumo) {
     this.setHeader("Consumo")
+    this.right()
   }
 
   fun Grid<NotaEntrada>.notaDemanda() = addColumnString(NotaEntrada::demanda) {
     this.setHeader("Demanda")
+    this.right()
   }
 
   fun Grid<NotaEntrada>.notaPeriodo() = addColumnString(NotaEntrada::periodo) {
     this.setHeader("Período")
+    this.center()
   }
 
   fun Grid<NotaEntrada>.notaRef() = addColumnString(NotaEntrada::ref) {
@@ -62,5 +65,6 @@ object NotaEntradaViewColumns {
 
   fun Grid<NotaEntrada>.notaVencimento() = addColumnLocalDate(NotaEntrada::dataVencimento) {
     this.setHeader("Vencimento")
+    this.center()
   }
 }

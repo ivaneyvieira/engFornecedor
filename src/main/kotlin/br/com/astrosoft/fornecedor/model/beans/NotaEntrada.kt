@@ -26,7 +26,7 @@ data class NotaEntrada(val invno: Int,
   val demanda
     get() = "DEMANDA: *([0-9/]+)?".regexGroup(obs)
   val periodo
-    get() = "DE *([0-9/]+ *A *[0-9/]+)?".regexGroup(obs)
+    get() = "DE *([0-9/]+ *A *[0-9/]+)".regexGroup(obs)
   val ref
     get() = "REF.? *([0-9/]+)?".regexGroup(obs)
   val cod

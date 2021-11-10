@@ -11,6 +11,7 @@ import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumn
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaLoja
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaNI
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaNota
+import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaObservacao
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaPeriodo
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaRef
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaValor
@@ -62,6 +63,7 @@ class DlgNota(val viewModel: TabFornecedorListViewModel) {
       notaDataEmissao()
       notaDataEntrada()
       notaVencimento()
+      //notaObservacao()
       if (listNotas.mapNotNull { it.lido }.isNotEmpty()) notaLido()
       if (listNotas.mapNotNull { it.consumo }.isNotEmpty()) notaConsumo()
       if (listNotas.mapNotNull { it.demanda }.isNotEmpty()) notaDemanda()
