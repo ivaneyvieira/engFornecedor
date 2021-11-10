@@ -12,7 +12,8 @@ data class NotaEntrada(val invno: Int,
                        val valor: Double,
                        val obs: String,
                        val vendno: Int,
-                       val dataVencimento: LocalDate?) {
+                       val dataVencimento: LocalDate?,
+                       var obsEdit: String) {
   fun listFiles() = saci.selectFile(this)
 
   private val consumoDireto
@@ -33,6 +34,8 @@ data class NotaEntrada(val invno: Int,
     get() = "COD.? *([0-9\\-]+)?".regexGroup(obs)
 
   private fun String.regexGroup(text: String, pos: Int = 1) = this.toRegex().find(text)?.groupValues?.getOrNull(pos)
+
+  fun saveNotas() = saci.saveNotas(this)
 }
 
 data class FiltroNotaEntrada(val vendno: Int, val loja: Int?)

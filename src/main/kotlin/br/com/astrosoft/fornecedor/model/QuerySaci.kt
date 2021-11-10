@@ -92,18 +92,26 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     })
   }
 
-  fun findFornecedores(filtro : FiltroFornecedor): List<Fornecedor> {
+  fun findFornecedores(filtro: FiltroFornecedor): List<Fornecedor> {
     val sql = "/sqlSaci/findFornecedor.sql"
-    return query(sql, Fornecedor::class){
+    return query(sql, Fornecedor::class) {
       this.addOptionalParameter("query", filtro.query)
     }
   }
 
-  fun findNotas(filtro : FiltroNotaEntrada): List<NotaEntrada> {
+  fun findNotas(filtro: FiltroNotaEntrada): List<NotaEntrada> {
     val sql = "/sqlSaci/findNotaEntrada.sql"
-    return query(sql, NotaEntrada::class){
+    return query(sql, NotaEntrada::class) {
       this.addOptionalParameter("vendno", filtro.vendno)
       this.addOptionalParameter("loja", filtro.loja ?: 0)
+    }
+  }
+
+  fun saveNotas(nota: NotaEntrada) {
+    val sql = "/sqlSaci/saveNotaEntrada.sql"
+    return script(sql) {
+      this.addOptionalParameter("ni", nota.invno)
+      this.addOptionalParameter("obsEdit", nota.obsEdit)
     }
   }
 
@@ -145,7 +153,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 
   fun selectFile(nfs: NotaEntrada): List<NFFile> {
     val sql = "/sqlSaci/fileSelect.sql"
-    return  query(sql, NFFile::class) {
+    return query(sql, NFFile::class) {
       addOptionalParameter("storeno", nfs.loja)
       addOptionalParameter("pdvno", 8888)
       addOptionalParameter("xano", nfs.invno)

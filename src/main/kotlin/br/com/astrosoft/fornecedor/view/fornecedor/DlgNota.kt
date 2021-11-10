@@ -11,6 +11,7 @@ import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumn
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaLoja
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaNI
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaNota
+import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaObsEditor
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaObservacao
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaPeriodo
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaRef
@@ -20,7 +21,10 @@ import br.com.astrosoft.fornecedor.viewmodel.fornecedor.TabFornecedorListViewMod
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.textFieldEditor
+import br.com.astrosoft.framework.view.withEditor
 import com.github.mvysny.kaributools.getColumnBy
+import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.Html
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.dialog.Dialog
@@ -51,6 +55,13 @@ class DlgNota(val viewModel: TabFornecedorListViewModel) {
       setSelectionMode(Grid.SelectionMode.MULTI)
       setItems(listNotas)
 
+      this.withEditor(NotaEntrada::class, openEditor = { _ ->
+        (getColumnBy(NotaEntrada::obsEdit).editorComponent as? Focusable<*>)?.focus()
+      }, closeEditor = { binder ->
+        viewModel.salvaNota(binder.bean)
+        this.dataProvider.refreshItem(binder.bean)
+      })
+
       addColumnButton(VaadinIcon.FILE_TABLE, "Arquivos", "Arquivos") { nota ->
         DlgEditFile(viewModel).editFile(nota)
       }.setClassNameGenerator {
@@ -70,6 +81,7 @@ class DlgNota(val viewModel: TabFornecedorListViewModel) {
       if (listNotas.mapNotNull { it.periodo }.isNotEmpty()) notaPeriodo()
       if (listNotas.mapNotNull { it.ref }.isNotEmpty()) notaRef()
       if (listNotas.mapNotNull { it.cod }.isNotEmpty()) notaCod()
+      notaObsEditor().textFieldEditor()
       notaValor().apply {
         val totalPedido = listNotas.sumOf { it.valor }.format()
         setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))

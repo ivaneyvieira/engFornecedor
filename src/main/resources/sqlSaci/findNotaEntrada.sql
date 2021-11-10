@@ -7,7 +7,8 @@ SELECT I.invno                                                                  
        grossamt / 100                                                             AS valor,
        I.remarks                                                                  AS obs,
        I.vendno                                                                   AS vendno,
-       CAST(MIN(X.duedate) AS DATE)                                               AS dataVencimento
+       CAST(MIN(X.duedate) AS DATE)                                               AS dataVencimento,
+       I.c10                                                                      AS obsEdit
 FROM sqldados.inv           AS I
   INNER JOIN sqldados.store AS S
 	       ON S.no = I.storeno

@@ -3,8 +3,9 @@ package br.com.astrosoft.fornecedor.viewmodel.fornecedor
 import br.com.astrosoft.fornecedor.model.beans.FiltroFornecedor
 import br.com.astrosoft.fornecedor.model.beans.Fornecedor
 import br.com.astrosoft.fornecedor.model.beans.NFFile
+import br.com.astrosoft.fornecedor.model.beans.NotaEntrada
 import br.com.astrosoft.framework.viewmodel.ITabView
-
+import br.com.astrosoft.framework.viewmodel.fail
 
 class TabFornecedorListViewModel(val viewModel: FornecedorViewModel) {
   fun updateView() {
@@ -23,6 +24,11 @@ class TabFornecedorListViewModel(val viewModel: FornecedorViewModel) {
     file?.apply {
       this.insert()
     }
+  }
+
+  fun salvaNota(nota: NotaEntrada?) = viewModel.exec {
+    nota ?: fail("Nota não selecionada")
+    nota.saveNotas()
   }
 
   private val subView

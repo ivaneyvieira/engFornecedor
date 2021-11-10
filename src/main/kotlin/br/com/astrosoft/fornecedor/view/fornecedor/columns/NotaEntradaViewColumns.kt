@@ -32,6 +32,10 @@ object NotaEntradaViewColumns {
     this.setHeader("Observação")
   }
 
+  fun Grid<NotaEntrada>.notaObsEditor() = addColumnString(NotaEntrada::obsEdit) {
+    this.setHeader("Obs")
+  }
+
   fun Grid<NotaEntrada>.notaValor() = addColumnDouble(NotaEntrada::valor) {
     this.setHeader("Valor")
   }
