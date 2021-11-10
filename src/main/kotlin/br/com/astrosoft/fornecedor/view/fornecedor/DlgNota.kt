@@ -60,7 +60,7 @@ class DlgNota(val viewModel: TabFornecedorListViewModel) {
       notaLoja()
       notaDataNota()
       notaNota()
-      notaObservacao()
+      //notaObservacao()
       notaVencimento()
       if (listNotas.mapNotNull { it.lido }.isNotEmpty()) notaLido()
       if (listNotas.mapNotNull { it.consumo }.isNotEmpty()) notaConsumo()
