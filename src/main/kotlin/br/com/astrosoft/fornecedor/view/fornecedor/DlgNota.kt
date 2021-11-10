@@ -72,7 +72,7 @@ class DlgNota(val viewModel: TabFornecedorListViewModel) {
         val totalPedido = listNotas.sumOf { it.valor }.format()
         setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
       }
-      sort(listOf(GridSortOrder(getColumnBy(NotaEntrada::dataNF), SortDirection.ASCENDING)))
+      sort(listOf(GridSortOrder(getColumnBy(NotaEntrada::dataNF), SortDirection.DESCENDING)))
     }
   }
 }
