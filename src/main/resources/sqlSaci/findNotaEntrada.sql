@@ -5,11 +5,15 @@ SELECT I.invno                                                                  
        CAST(CONCAT(I.nfname, IF(I.invse = '', '', CONCAT('/', I.invse))) AS CHAR) AS nota,
        grossamt / 100                                                             AS valor,
        I.remarks                                                                  AS obs,
-       I.vendno                                                                   AS vendno
+       I.vendno                                                                   AS vendno,
+       MIN(CAST(X.duedate AS DATE))                                               AS vencimento
 FROM sqldados.inv           AS I
   INNER JOIN sqldados.store AS S
 	       ON S.no = I.storeno
+  INNER JOIN sqldados.invxa AS X
+	       USING (invno)
 WHERE I.bits & POW(2, 4) = 0
   AND I.auxShort13 & POW(2, 15) = 0
   AND I.vendno = :vendno
   AND (I.storeno = :loja OR :loja = 0)
+GROUP BY I.invno

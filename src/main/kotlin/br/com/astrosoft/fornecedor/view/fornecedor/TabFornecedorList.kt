@@ -13,6 +13,7 @@ import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelTree
 import br.com.astrosoft.framework.view.addColumnButton
 import com.github.mvysny.karibudsl.v10.textField
+import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
 import com.vaadin.flow.component.icon.VaadinIcon.FILE_TABLE
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
@@ -20,6 +21,7 @@ import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.component.treegrid.TreeGrid
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 
+@CssImport("./styles/gridTotal.css")
 class TabFornecedorList(val viewModel: TabFornecedorListViewModel) : TabPanelTree<Fornecedor>(Fornecedor::class),
         ITabFornecedorList {
   private lateinit var edtFiltro: TextField
