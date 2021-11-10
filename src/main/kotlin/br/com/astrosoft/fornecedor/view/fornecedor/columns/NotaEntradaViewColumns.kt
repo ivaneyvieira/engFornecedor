@@ -16,8 +16,12 @@ object NotaEntradaViewColumns {
     this.setHeader("Loja")
   }
 
-  fun Grid<NotaEntrada>.notaDataNota() = addColumnLocalDate(NotaEntrada::dataNF) {
-    this.setHeader("Data NF")
+  fun Grid<NotaEntrada>.notaDataEntrada() = addColumnLocalDate(NotaEntrada::dataEntrada) {
+    this.setHeader("Entrada")
+  }
+
+  fun Grid<NotaEntrada>.notaDataEmissao() = addColumnLocalDate(NotaEntrada::dataEmissao) {
+    this.setHeader("Emissão")
   }
 
   fun Grid<NotaEntrada>.notaNota() = addColumnString(NotaEntrada::nota) {

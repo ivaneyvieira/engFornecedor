@@ -4,13 +4,13 @@ import br.com.astrosoft.fornecedor.model.beans.Fornecedor
 import br.com.astrosoft.fornecedor.model.beans.NotaEntrada
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaCod
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaConsumo
-import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaDataNota
+import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaDataEmissao
+import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaDataEntrada
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaDemanda
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaLido
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaLoja
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaNI
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaNota
-import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaObservacao
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaPeriodo
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaRef
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaValor
@@ -56,11 +56,11 @@ class DlgNota(val viewModel: TabFornecedorListViewModel) {
         if (it.listFiles().isNotEmpty()) "marcaDiferenca" else ""
       }
 
-      notaNI()
       notaLoja()
-      notaDataNota()
+      notaNI()
       notaNota()
-      //notaObservacao()
+      notaDataEmissao()
+      notaDataEntrada()
       notaVencimento()
       if (listNotas.mapNotNull { it.lido }.isNotEmpty()) notaLido()
       if (listNotas.mapNotNull { it.consumo }.isNotEmpty()) notaConsumo()
@@ -72,7 +72,7 @@ class DlgNota(val viewModel: TabFornecedorListViewModel) {
         val totalPedido = listNotas.sumOf { it.valor }.format()
         setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))
       }
-      sort(listOf(GridSortOrder(getColumnBy(NotaEntrada::dataNF), SortDirection.DESCENDING)))
+      sort(listOf(GridSortOrder(getColumnBy(NotaEntrada::dataEntrada), SortDirection.DESCENDING)))
     }
   }
 }
