@@ -6,11 +6,11 @@ SELECT I.invno                                                                  
        grossamt / 100                                                             AS valor,
        I.remarks                                                                  AS obs,
        I.vendno                                                                   AS vendno,
-       MIN(CAST(X.duedate AS DATE))                                               AS vencimento
+       CAST(MIN(X.duedate) AS DATE)                                               AS dataVencimento
 FROM sqldados.inv           AS I
   INNER JOIN sqldados.store AS S
 	       ON S.no = I.storeno
-  INNER JOIN sqldados.invxa AS X
+  LEFT JOIN  sqldados.invxa AS X
 	       USING (invno)
 WHERE I.bits & POW(2, 4) = 0
   AND I.auxShort13 & POW(2, 15) = 0

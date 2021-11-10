@@ -3,7 +3,7 @@ package br.com.astrosoft.fornecedor.model.beans
 import br.com.astrosoft.fornecedor.model.saci
 import java.time.LocalDate
 
-class NotaEntrada(val invno: Int,
+data class NotaEntrada(val invno: Int,
                   val loja: Int,
                   val siglaLoja: String,
                   val dataNF: LocalDate,
@@ -11,7 +11,7 @@ class NotaEntrada(val invno: Int,
                   val valor: Double,
                   val obs: String,
                   val vendno: Int,
-                  val vencimento: LocalDate?) {
+                  val dataVencimento: LocalDate?) {
   fun listFiles() = saci.selectFile(this)
 
   val consumo

@@ -10,6 +10,7 @@ import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumn
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaLoja
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaNI
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaNota
+import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaObservacao
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaPeriodo
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaRef
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaValor
@@ -58,14 +59,15 @@ class DlgNota(val viewModel: TabFornecedorListViewModel) {
       notaNI()
       notaLoja()
       notaDataNota()
-      notaNota() //notaObservacao()
+      notaNota()
+      notaObservacao()
+      notaVencimento()
       if (listNotas.mapNotNull { it.lido }.isNotEmpty()) notaLido()
       if (listNotas.mapNotNull { it.consumo }.isNotEmpty()) notaConsumo()
       if (listNotas.mapNotNull { it.demanda }.isNotEmpty()) notaDemanda()
       if (listNotas.mapNotNull { it.periodo }.isNotEmpty()) notaPeriodo()
       if (listNotas.mapNotNull { it.ref }.isNotEmpty()) notaRef()
       if (listNotas.mapNotNull { it.cod }.isNotEmpty()) notaCod()
-      notaVencimento()
       notaValor().apply {
         val totalPedido = listNotas.sumOf { it.valor }.format()
         setFooter(Html("<b><font size=4>${totalPedido}</font></b>"))

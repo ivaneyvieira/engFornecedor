@@ -33,7 +33,7 @@ object NotaEntradaViewColumns {
   }
 
   fun Grid<NotaEntrada>.notaLido() = addColumnString(NotaEntrada::lido) {
-    this.setHeader("Consumo")
+    this.setHeader("Leitura")
   }
 
   fun Grid<NotaEntrada>.notaConsumo() = addColumnString(NotaEntrada::consumo) {
@@ -49,14 +49,14 @@ object NotaEntradaViewColumns {
   }
 
   fun Grid<NotaEntrada>.notaRef() = addColumnString(NotaEntrada::ref) {
-    this.setHeader("Ref.")
+    this.setHeader("Referência")
   }
 
   fun Grid<NotaEntrada>.notaCod() = addColumnString(NotaEntrada::cod) {
     this.setHeader("Cod.")
   }
 
-  fun Grid<NotaEntrada>.notaVencimento() = addColumnLocalDate(NotaEntrada::vencimento) {
+  fun Grid<NotaEntrada>.notaVencimento() = addColumnLocalDate(NotaEntrada::dataVencimento) {
     this.setHeader("Vencimento")
   }
 }
