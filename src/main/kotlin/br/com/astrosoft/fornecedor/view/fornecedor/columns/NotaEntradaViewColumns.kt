@@ -67,6 +67,10 @@ object NotaEntradaViewColumns {
     this.setHeader("Cod.")
   }
 
+  fun Grid<NotaEntrada>.notaLitros() = addColumnInt(NotaEntrada::litros) {
+    this.setHeader("Litros")
+  }
+
   fun Grid<NotaEntrada>.notaVencimento() = addColumnLocalDate(NotaEntrada::dataVencimento) {
     this.setHeader("Vencimento")
     this.center()

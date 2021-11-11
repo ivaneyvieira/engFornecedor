@@ -4,6 +4,7 @@ import br.com.astrosoft.fornecedor.model.beans.FiltroFornecedor
 import br.com.astrosoft.fornecedor.model.beans.Fornecedor
 import br.com.astrosoft.fornecedor.model.beans.NFFile
 import br.com.astrosoft.fornecedor.model.beans.NotaEntrada
+import br.com.astrosoft.fornecedor.model.reports.NotaEntradaReport
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
@@ -31,11 +32,17 @@ class TabFornecedorListViewModel(val viewModel: FornecedorViewModel) {
     nota.saveNotas()
   }
 
+  fun imprimirRelatorio(fornecedor: Fornecedor?, notas: List<NotaEntrada>) = viewModel.exec {
+    notas.ifEmpty { fail("Não há nota selecionado") }
+    val report = NotaEntradaReport.processaRelatorio(notas, fornecedor?.labelTitle ?: "")
+    viewModel.showReport("Fornecedor", report)
+  }
+
   private val subView
     get() = viewModel.view.tabFornecedorList
 }
 
-interface ITabFornecedorList : ITabView{
-  fun filtro() : FiltroFornecedor
-  fun updateFiltro(list: List<Fornecedor>, )
+interface ITabFornecedorList : ITabView {
+  fun filtro(): FiltroFornecedor
+  fun updateFiltro(list: List<Fornecedor>)
 }

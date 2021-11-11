@@ -1,6 +1,7 @@
 package br.com.astrosoft.fornecedor.model.beans
 
 import br.com.astrosoft.fornecedor.model.saci
+import br.com.astrosoft.framework.util.format
 import java.time.LocalDate
 
 data class NotaEntrada(val invno: Int,
@@ -13,7 +14,8 @@ data class NotaEntrada(val invno: Int,
                        val obs: String,
                        val vendno: Int,
                        val dataVencimento: LocalDate?,
-                       var obsEdit: String) {
+                       var obsEdit: String,
+                       val litros: Int?) {
   fun listFiles() = saci.selectFile(this)
 
   private val consumoDireto
@@ -34,6 +36,13 @@ data class NotaEntrada(val invno: Int,
     get() = "COD.? *([0-9\\-]+)?".regexGroup(obs)
 
   private fun String.regexGroup(text: String, pos: Int = 1) = this.toRegex().find(text)?.groupValues?.getOrNull(pos)
+
+  val dataEmissaoStr
+    get() = dataEmissao.format()
+  val dataEntradaStr
+    get() = dataEntrada.format()
+  val dataVencimentoStr
+    get() = dataVencimento.format()
 
   fun saveNotas() = saci.saveNotas(this)
 }

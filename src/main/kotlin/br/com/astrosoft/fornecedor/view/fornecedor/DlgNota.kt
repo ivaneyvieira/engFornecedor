@@ -8,6 +8,7 @@ import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumn
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaDataEntrada
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaDemanda
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaLido
+import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaLitros
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaLoja
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaNI
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaNota
@@ -23,6 +24,8 @@ import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.textFieldEditor
 import br.com.astrosoft.framework.view.withEditor
+import com.github.mvysny.karibudsl.v10.button
+import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.kaributools.getColumnBy
 import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.Html
@@ -40,7 +43,15 @@ class DlgNota(val viewModel: TabFornecedorListViewModel) {
     fornecedor ?: return
     lateinit var gridNota: Grid<NotaEntrada>
     val listNotas = fornecedor.findNotas()
-    val form = SubWindowForm(fornecedor.labelTitle, toolBar = {}, onClose = onClose) {
+    val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
+      button("Relatório") {
+        icon = VaadinIcon.PRINT.create()
+        onLeftClick {
+          val notas = gridNota.asMultiSelect().selectedItems.toList()
+          viewModel.imprimirRelatorio(fornecedor, notas)
+        }
+      }
+    }, onClose = onClose) {
       gridNota = createGridNotas(listNotas)
       gridNota
     }
@@ -81,6 +92,7 @@ class DlgNota(val viewModel: TabFornecedorListViewModel) {
       if (listNotas.mapNotNull { it.periodo }.isNotEmpty()) notaPeriodo()
       if (listNotas.mapNotNull { it.ref }.isNotEmpty()) notaRef()
       if (listNotas.mapNotNull { it.cod }.isNotEmpty()) notaCod()
+      if (listNotas.mapNotNull { it.litros }.isNotEmpty()) notaLitros()
       notaObsEditor().textFieldEditor()
       notaValor().apply {
         val totalPedido = listNotas.sumOf { it.valor }.format()
