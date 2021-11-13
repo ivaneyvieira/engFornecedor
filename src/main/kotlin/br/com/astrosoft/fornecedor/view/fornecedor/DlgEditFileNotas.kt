@@ -18,7 +18,7 @@ import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer
 
-class DlgEditFile(val viewModel: TabFornecedorListViewModel) {
+class DlgEditFileNotas(val viewModel: TabFornecedorListViewModel) {
   fun editFile(nota: NotaEntrada) {
     val grid = createFormEditFile(nota)
     val form = SubWindowForm("NF: ${nota.nota}", toolBar = { _ ->

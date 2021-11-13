@@ -24,5 +24,14 @@ class NFFile(val storeno: Int,
                     nome = fileName,
                     file = bytes)
     }
+
+    fun new(fornecedor: Fornecedor, fileName: String, bytes: ByteArray): NFFile {
+      return NFFile(storeno = fornecedor.loja ?: 0,
+                    pdvno = 7777,
+                    xano = fornecedor.vendno,
+                    date = LocalDate.now(),
+                    nome = fileName,
+                    file = bytes)
+    }
   }
 }

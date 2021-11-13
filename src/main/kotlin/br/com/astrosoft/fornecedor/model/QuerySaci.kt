@@ -115,7 +115,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  //Files
+  //Files Notas
   fun insertFile(file: NFFile) {
     val sql = "/sqlSaci/fileInsert.sql"
     script(sql) {
@@ -157,6 +157,15 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("storeno", nfs.loja)
       addOptionalParameter("pdvno", 8888)
       addOptionalParameter("xano", nfs.invno)
+    }
+  }
+
+  fun selectFile(fornecedor: Fornecedor): List<NFFile> {
+    val sql = "/sqlSaci/fileSelect.sql"
+    return query(sql, NFFile::class) {
+      addOptionalParameter("storeno", fornecedor.loja ?: 0)
+      addOptionalParameter("pdvno", 7777)
+      addOptionalParameter("xano", fornecedor.vendno)
     }
   }
 

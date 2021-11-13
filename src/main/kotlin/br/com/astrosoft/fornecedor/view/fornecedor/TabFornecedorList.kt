@@ -21,7 +21,7 @@ import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.component.treegrid.TreeGrid
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 
-@CssImport("./styles/gridTotal.css")
+@CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
 class TabFornecedorList(val viewModel: TabFornecedorListViewModel) : TabPanelTree<Fornecedor>(Fornecedor::class),
         ITabFornecedorList {
   private lateinit var edtFiltro: TextField
@@ -43,6 +43,16 @@ class TabFornecedorList(val viewModel: TabFornecedorListViewModel) : TabPanelTre
       DlgNota(viewModel).showDialogNota(fornecedor) {
         viewModel.updateView()
       }
+    }.setClassNameGenerator {
+      if (it.findNotas().isNotEmpty()) "marcaDiferenca" else ""
+    }
+
+    addColumnButton(FILE_TABLE, "Contrato", "Contrato") { fornecedor ->
+      DlgEditFileContrato(viewModel).editFile(fornecedor) {
+        viewModel.updateView()
+      }
+    }.setClassNameGenerator {
+      if (it.listFiles().isNotEmpty()) "marcaDiferenca" else ""
     }
 
     this.addHierarchyColumn(Fornecedor::vendno).apply {

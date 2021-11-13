@@ -22,6 +22,8 @@ class Fornecedor(
   fun findFornecedorLoja() = if (loja == null) findFornecedorLoja(FiltroFornecedor(vendno.toString()))
   else emptyList()
 
+  fun listFiles() = saci.selectFile(this)
+
   companion object {
     fun findFornecedor(filtro: FiltroFornecedor): List<Fornecedor> = saci.findFornecedores(filtro).groupBy {
       it.vendno

@@ -13,7 +13,6 @@ import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumn
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaNI
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaNota
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaObsEditor
-import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaObservacao
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaPeriodo
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaRef
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaValor
@@ -74,7 +73,7 @@ class DlgNota(val viewModel: TabFornecedorListViewModel) {
       })
 
       addColumnButton(VaadinIcon.FILE_TABLE, "Arquivos", "Arquivos") { nota ->
-        DlgEditFile(viewModel).editFile(nota)
+        DlgEditFileNotas(viewModel).editFile(nota)
       }.setClassNameGenerator {
         if (it.listFiles().isNotEmpty()) "marcaDiferenca" else ""
       }
