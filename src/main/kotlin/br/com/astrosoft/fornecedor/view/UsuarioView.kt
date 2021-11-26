@@ -68,6 +68,10 @@ class UsuarioView : UserLayout<UserSaci, UsuarioViewModel>(), IUsuarioView {
             isReadOnly = readOnly
             binder.bind(this, UserSaci::fornecedorList.name)
           }
+          checkBox("Pendencia") {
+            isReadOnly = readOnly
+            binder.bind(this, UserSaci::fornecedorPendencia.name)
+          }
         }
       }
     }

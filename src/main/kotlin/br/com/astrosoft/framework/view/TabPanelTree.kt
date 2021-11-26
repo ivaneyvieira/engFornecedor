@@ -3,13 +3,10 @@ package br.com.astrosoft.framework.view
 import com.github.mvysny.karibudsl.v10.horizontalLayout
 import com.github.mvysny.karibudsl.v10.isExpand
 import com.github.mvysny.kaributools.fetchAll
-import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.grid.GridVariant.LUMO_COMPACT
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.component.treegrid.TreeGrid
-import com.vaadin.flow.data.provider.hierarchy.TreeData
-import com.vaadin.flow.data.provider.hierarchy.TreeDataProvider
 import kotlin.reflect.KClass
 
 abstract class TabPanelTree<T : Any>(classGrid: KClass<T>) : ITabPanel {
@@ -27,8 +24,7 @@ abstract class TabPanelTree<T : Any>(classGrid: KClass<T>) : ITabPanel {
       toolBarConfig()
     }
 
-    gridPanel.apply {
-     // this.dataProvider = dataProviderPanel
+    gridPanel.apply { // this.dataProvider = dataProviderPanel
       isExpand = true
       isMultiSort = true
       addThemeVariants(LUMO_COMPACT)
@@ -38,9 +34,8 @@ abstract class TabPanelTree<T : Any>(classGrid: KClass<T>) : ITabPanel {
   }
 
   fun updateGrid(itens: List<T>, findChild: (T) -> List<T>) {
-    gridPanel.deselectAll()
-   // dataProviderPanel.treeData.clear()
-   // dataProviderPanel.treeData.addItems(itens, findChild)
+    gridPanel.deselectAll() // dataProviderPanel.treeData.clear()
+    // dataProviderPanel.treeData.addItems(itens, findChild)
     gridPanel.setItems(itens, findChild)
   }
 

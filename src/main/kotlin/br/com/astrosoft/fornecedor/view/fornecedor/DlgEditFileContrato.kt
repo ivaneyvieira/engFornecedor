@@ -4,7 +4,7 @@ import br.com.astrosoft.fornecedor.model.beans.Fornecedor
 import br.com.astrosoft.fornecedor.model.beans.NFFile
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NFFileViewColumns.nfFileData
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NFFileViewColumns.nfFileDescricao
-import br.com.astrosoft.fornecedor.viewmodel.fornecedor.TabFornecedorListViewModel
+import br.com.astrosoft.fornecedor.viewmodel.fornecedor.ITabFornecedorViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.showOutput
@@ -19,7 +19,7 @@ import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer
 
-class DlgEditFileContrato(val viewModel: TabFornecedorListViewModel) {
+class DlgEditFileContrato(val viewModel: ITabFornecedorViewModel) {
   fun editFile(fornecedor: Fornecedor, onClose: (Dialog) -> Unit) {
     val grid = createFormEditFile(fornecedor)
     val form = SubWindowForm(fornecedor.labelTitle, toolBar = { dialog ->

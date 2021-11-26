@@ -17,7 +17,7 @@ import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumn
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaRef
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaValor
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NotaEntradaViewColumns.notaVencimento
-import br.com.astrosoft.fornecedor.viewmodel.fornecedor.TabFornecedorListViewModel
+import br.com.astrosoft.fornecedor.viewmodel.fornecedor.ITabFornecedorViewModel
 import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.addColumnButton
@@ -37,7 +37,7 @@ import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.data.provider.SortDirection
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class DlgNota(val viewModel: TabFornecedorListViewModel) {
+class DlgNota(val viewModel: ITabFornecedorViewModel) {
   fun showDialogNota(fornecedor: Fornecedor?, onClose: (Dialog) -> Unit) {
     fornecedor ?: return
     lateinit var gridNota: Grid<NotaEntrada>
@@ -83,8 +83,7 @@ class DlgNota(val viewModel: TabFornecedorListViewModel) {
       notaNota()
       notaDataEmissao()
       notaDataEntrada()
-      notaVencimento()
-      //notaObservacao()
+      notaVencimento() //notaObservacao()
       if (listNotas.mapNotNull { it.lido }.isNotEmpty()) notaLido()
       if (listNotas.mapNotNull { it.consumo }.isNotEmpty()) notaConsumo()
       if (listNotas.mapNotNull { it.demanda }.isNotEmpty()) notaDemanda()

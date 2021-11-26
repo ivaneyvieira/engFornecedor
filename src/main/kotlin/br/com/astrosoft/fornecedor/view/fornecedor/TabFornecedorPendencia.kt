@@ -7,8 +7,8 @@ import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorLoja
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorNome
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorObs
-import br.com.astrosoft.fornecedor.viewmodel.fornecedor.ITabFornecedorList
-import br.com.astrosoft.fornecedor.viewmodel.fornecedor.TabFornecedorListViewModel
+import br.com.astrosoft.fornecedor.viewmodel.fornecedor.ITabFornecedorPendencia
+import br.com.astrosoft.fornecedor.viewmodel.fornecedor.TabFornecedorPendenciaViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelTree
 import br.com.astrosoft.framework.view.addColumnButton
@@ -21,8 +21,8 @@ import com.vaadin.flow.component.treegrid.TreeGrid
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class TabFornecedorList(val viewModel: TabFornecedorListViewModel) : TabPanelTree<Fornecedor>(Fornecedor::class),
-        ITabFornecedorList {
+class TabFornecedorPendencia(val viewModel: TabFornecedorPendenciaViewModel) :
+        TabPanelTree<Fornecedor>(Fornecedor::class), ITabFornecedorPendencia {
   private lateinit var edtFiltro: TextField
 
   override fun HorizontalLayout.toolBarConfig() {
@@ -73,7 +73,7 @@ class TabFornecedorList(val viewModel: TabFornecedorListViewModel) : TabPanelTre
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.fornecedorList == true
+    return username?.fornecedorPendencia == true
   }
 
   override val label: String

@@ -11,7 +11,7 @@ class Fornecedor(
                 ) {
   val labelTitle: String
     get() {
-      val descricaoLoja = if(loja == null) "Todas as lojas" else "Loja $loja"
+      val descricaoLoja = if (loja == null) "Todas as lojas" else "Loja $loja"
       return "Fornecedor: $vendno - $fornecedor $descricaoLoja"
     }
 

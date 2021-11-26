@@ -8,7 +8,7 @@ import br.com.astrosoft.fornecedor.model.reports.NotaEntradaReport
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
-class TabFornecedorListViewModel(val viewModel: FornecedorViewModel) : ITabFornecedorViewModel {
+class TabFornecedorPendenciaViewModel(val viewModel: FornecedorViewModel) : ITabFornecedorViewModel {
   fun updateView() {
     val filtro = subView.filtro()
     val list = Fornecedor.findFornecedor(filtro)
@@ -39,10 +39,10 @@ class TabFornecedorListViewModel(val viewModel: FornecedorViewModel) : ITabForne
   }
 
   private val subView
-    get() = viewModel.view.tabFornecedorList
+    get() = viewModel.view.tabFornecedorPendencia
 }
 
-interface ITabFornecedorList : ITabView {
+interface ITabFornecedorPendencia : ITabView {
   fun filtro(): FiltroFornecedor
   fun updateFiltro(list: List<Fornecedor>)
 }

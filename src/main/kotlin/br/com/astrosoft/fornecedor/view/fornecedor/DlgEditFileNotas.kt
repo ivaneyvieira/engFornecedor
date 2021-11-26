@@ -4,7 +4,7 @@ import br.com.astrosoft.fornecedor.model.beans.NFFile
 import br.com.astrosoft.fornecedor.model.beans.NotaEntrada
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NFFileViewColumns.nfFileData
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.NFFileViewColumns.nfFileDescricao
-import br.com.astrosoft.fornecedor.viewmodel.fornecedor.TabFornecedorListViewModel
+import br.com.astrosoft.fornecedor.viewmodel.fornecedor.ITabFornecedorViewModel
 import br.com.astrosoft.framework.view.SubWindowForm
 import br.com.astrosoft.framework.view.addColumnButton
 import br.com.astrosoft.framework.view.showOutput
@@ -18,7 +18,7 @@ import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer
 
-class DlgEditFileNotas(val viewModel: TabFornecedorListViewModel) {
+class DlgEditFileNotas(val viewModel: ITabFornecedorViewModel) {
   fun editFile(nota: NotaEntrada) {
     val grid = createFormEditFile(nota)
     val form = SubWindowForm("NF: ${nota.nota}", toolBar = { _ ->
