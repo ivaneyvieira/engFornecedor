@@ -31,6 +31,7 @@ class TabFornecedorPendenciaViewModel(val viewModel: FornecedorViewModel) : ITab
     fornecedor ?: fail("O fonecedor não foi selecionado")
     fornecedor.status = 0
     fornecedor.update()
+    subView.updateComponent()
   }
 
   override fun salvaNota(nota: NotaEntrada?) = viewModel.exec {
@@ -42,6 +43,12 @@ class TabFornecedorPendenciaViewModel(val viewModel: FornecedorViewModel) : ITab
     notas.ifEmpty { fail("Não há nota selecionado") }
     val report = NotaEntradaReport.processaRelatorio(notas, fornecedor?.labelTitle ?: "")
     viewModel.showReport("Fornecedor", report)
+  }
+
+  fun updateFornecedor(fornecedor: Fornecedor?) {
+    fornecedor ?: fail("O fonecedor não foi selecionado")
+    fornecedor.update()
+    subView.updateComponent()
   }
 
   private val subView

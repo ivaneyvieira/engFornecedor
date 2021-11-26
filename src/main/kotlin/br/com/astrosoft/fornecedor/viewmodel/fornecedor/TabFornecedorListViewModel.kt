@@ -42,6 +42,7 @@ class TabFornecedorListViewModel(val viewModel: FornecedorViewModel) : ITabForne
     fornecedor ?: fail("O fonecedor não foi selecionado")
     fornecedor.status = 1
     fornecedor.update()
+    subView.updateComponent()
   }
 
   private val subView

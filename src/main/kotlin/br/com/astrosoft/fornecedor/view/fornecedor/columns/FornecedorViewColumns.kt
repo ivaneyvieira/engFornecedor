@@ -26,7 +26,7 @@ object FornecedorViewColumns {
     this.setHeader("Fornecedor")
   }
 
-  fun Grid<Fornecedor>.fornecedorObs() = addColumnString(Fornecedor::obs) {
+  fun Grid<Fornecedor>.fornecedorObs() = addColumnString(Fornecedor::observacao) {
     this.setHeader("Observação")
   }
 }

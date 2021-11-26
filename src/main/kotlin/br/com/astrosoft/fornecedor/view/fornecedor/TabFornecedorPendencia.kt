@@ -12,7 +12,11 @@ import br.com.astrosoft.fornecedor.viewmodel.fornecedor.TabFornecedorPendenciaVi
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelTree
 import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.textFieldEditor
+import br.com.astrosoft.framework.view.withEditor
 import com.github.mvysny.karibudsl.v10.textField
+import com.github.mvysny.kaributools.getColumnBy
+import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.icon.VaadinIcon.FILE_TABLE
@@ -63,10 +67,17 @@ class TabFornecedorPendencia(val viewModel: TabFornecedorPendenciaViewModel) :
       setHeader("Código")
     }
 
+    this.withEditor(Fornecedor::class, openEditor = { _ ->
+      (getColumnBy(Fornecedor::observacao).editorComponent as? Focusable<*>)?.focus()
+    }, closeEditor = { binder ->
+      viewModel.updateFornecedor(binder.bean)
+      this.dataProvider.refreshItem(binder.bean)
+    })
+
     fornecedorLoja()
     fornecedorCliente()
     fornecedorNome()
-    fornecedorObs()
+    fornecedorObs().textFieldEditor()
   }
 
   override fun filtro(): FiltroFornecedor = FiltroFornecedor(query = edtFiltro.value ?: "", status = 1)
