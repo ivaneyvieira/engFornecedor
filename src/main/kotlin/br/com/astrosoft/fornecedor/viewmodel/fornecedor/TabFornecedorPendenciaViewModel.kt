@@ -11,7 +11,7 @@ import br.com.astrosoft.framework.viewmodel.fail
 class TabFornecedorPendenciaViewModel(val viewModel: FornecedorViewModel) : ITabFornecedorViewModel {
   fun updateView() {
     val filtro = subView.filtro()
-    val list = Fornecedor.findFornecedor(filtro)
+    val list = Fornecedor.findFornecedorLoja(filtro)
     subView.updateFiltro(list)
   }
 
@@ -25,6 +25,12 @@ class TabFornecedorPendenciaViewModel(val viewModel: FornecedorViewModel) : ITab
     file?.apply {
       this.insert()
     }
+  }
+
+  fun desmarcaPendencia(fornecedor: Fornecedor?) = viewModel.exec {
+    fornecedor ?: fail("O fonecedor não foi selecionado")
+    fornecedor.status = 0
+    fornecedor.update()
   }
 
   override fun salvaNota(nota: NotaEntrada?) = viewModel.exec {

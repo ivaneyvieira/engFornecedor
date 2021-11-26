@@ -14,6 +14,7 @@ import br.com.astrosoft.framework.view.TabPanelTree
 import br.com.astrosoft.framework.view.addColumnButton
 import com.github.mvysny.karibudsl.v10.textField
 import com.vaadin.flow.component.dependency.CssImport
+import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.icon.VaadinIcon.FILE_TABLE
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.TextField
@@ -53,11 +54,15 @@ class TabFornecedorList(val viewModel: TabFornecedorListViewModel) : TabPanelTre
       if (it.listFiles().isNotEmpty()) "marcaDiferenca" else ""
     }
 
+    addColumnButton(VaadinIcon.ARROW_RIGHT, "Pendência", "Pend") { fornecedor ->
+      viewModel.marcaPendencia(fornecedor)
+    }.setClassNameGenerator {
+      if (it.status == 1) "marcaDiferenca" else ""
+    }
+
     this.addHierarchyColumn(Fornecedor::vendno).apply {
       setHeader("Código")
     }
-
-    //fornecedorCodigo()
 
     fornecedorLoja()
     fornecedorCliente()
@@ -65,7 +70,7 @@ class TabFornecedorList(val viewModel: TabFornecedorListViewModel) : TabPanelTre
     fornecedorObs()
   }
 
-  override fun filtro(): FiltroFornecedor = FiltroFornecedor(query = edtFiltro.value ?: "")
+  override fun filtro(): FiltroFornecedor = FiltroFornecedor(query = edtFiltro.value ?: "", status = 0)
 
   override fun updateFiltro(list: List<Fornecedor>) {
     updateGrid(list, Fornecedor::findFornecedorLoja)

@@ -38,6 +38,12 @@ class TabFornecedorListViewModel(val viewModel: FornecedorViewModel) : ITabForne
     viewModel.showReport("Fornecedor", report)
   }
 
+  fun marcaPendencia(fornecedor: Fornecedor?)  = viewModel.exec{
+    fornecedor ?: fail("O fonecedor não foi selecionado")
+    fornecedor.status = 1
+    fornecedor.update()
+  }
+
   private val subView
     get() = viewModel.view.tabFornecedorList
 }

@@ -8,6 +8,8 @@ class Fornecedor(
   val fornecedor: String,
   var obs: String,
   val loja: Int?,
+  var observacao: String,
+  var status: Int,
                 ) {
   val labelTitle: String
     get() {
@@ -15,29 +17,44 @@ class Fornecedor(
       return "Fornecedor: $vendno - $fornecedor $descricaoLoja"
     }
 
+  var statusStr
+    get() = when (status) {
+      1    -> "Pendência"
+      else -> ""
+    }
+    set(value) {
+      status = if (value == "Pendência") 1 else 0
+    }
+
   fun findNotas(): List<NotaEntrada> = saci.findNotas(filtroNotas())
 
   private fun filtroNotas() = FiltroNotaEntrada(vendno, loja)
 
-  fun findFornecedorLoja() = if (loja == null) findFornecedorLoja(FiltroFornecedor(vendno.toString()))
+  fun findFornecedorLoja() = if (loja == null) findFornecedorLoja(FiltroFornecedor(vendno.toString(), status = 0))
   else emptyList()
 
   fun listFiles() = saci.selectFile(this)
 
+  fun update() {
+    saci.updateFornecedor(this)
+  }
+
   companion object {
     fun findFornecedor(filtro: FiltroFornecedor): List<Fornecedor> = saci.findFornecedores(filtro).groupBy {
       it.vendno
-    }.map {
-      val value = it.value
+    }.map { ent ->
+      val value = ent.value
       Fornecedor(vendno = value.firstOrNull()?.vendno ?: 0,
                  custno = value.firstOrNull()?.custno ?: 0,
                  fornecedor = value.firstOrNull()?.fornecedor ?: "",
                  obs = value.firstOrNull()?.obs ?: "",
-                 loja = null)
+                 loja = null,
+                 status = value.maxOf { it.status },
+                 observacao = "")
     }
 
     fun findFornecedorLoja(filtro: FiltroFornecedor): List<Fornecedor> = saci.findFornecedores(filtro)
   }
 }
 
-data class FiltroFornecedor(val query: String)
+data class FiltroFornecedor(val query: String, val status: Int)

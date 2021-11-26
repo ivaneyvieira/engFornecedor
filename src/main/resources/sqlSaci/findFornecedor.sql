@@ -38,12 +38,15 @@ SELECT F.vendno,
        F.custno,
        F.fornecedor,
        F.obs,
-       I.storeno             AS loja
+       I.storeno AS loja,
+       I.c9      AS observacao,
+       I.s28     AS status
 FROM sqldados.inv                  AS I
   INNER JOIN sqldados.T_FORNECEDOR AS F
 	       USING (vendno)
 WHERE I.bits & POW(2, 4) = 0
   AND I.auxShort13 & POW(2, 15) = 0
+  AND (I.s28 = :status || :status = 0)
 GROUP BY vendno, storeno
 
 

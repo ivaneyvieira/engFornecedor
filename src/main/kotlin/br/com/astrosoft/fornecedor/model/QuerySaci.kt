@@ -96,6 +96,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/findFornecedor.sql"
     return query(sql, Fornecedor::class) {
       this.addOptionalParameter("query", filtro.query)
+      this.addOptionalParameter("status", filtro.status)
     }
   }
 
@@ -166,6 +167,16 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("storeno", fornecedor.loja ?: 0)
       addOptionalParameter("pdvno", 7777)
       addOptionalParameter("xano", fornecedor.vendno)
+    }
+  }
+
+  fun updateFornecedor(fornecedor: Fornecedor) {
+    val sql = "/sqlSaci/updateFornecedor.sql"
+    script(sql) {
+      addOptionalParameter("vendno", fornecedor.vendno)
+      addOptionalParameter("storeno", fornecedor.loja ?: 0)
+      addOptionalParameter("observacao", fornecedor.observacao)
+      addOptionalParameter("status", fornecedor.status)
     }
   }
 
