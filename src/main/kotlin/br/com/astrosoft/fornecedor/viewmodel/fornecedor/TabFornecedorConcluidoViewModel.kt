@@ -5,7 +5,7 @@ import br.com.astrosoft.fornecedor.model.reports.NotaEntradaReport
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
 
-class TabFornecedorPendenciaViewModel(val viewModel: FornecedorViewModel) : ITabFornecedorViewModel {
+class TabFornecedorConcluidoViewModel(val viewModel: FornecedorViewModel) : ITabFornecedorViewModel {
   fun updateView() {
     val filtro = subView.filtro()
     val list = Fornecedor.findFornecedorLoja(filtro)
@@ -24,7 +24,7 @@ class TabFornecedorPendenciaViewModel(val viewModel: FornecedorViewModel) : ITab
     }
   }
 
-  fun desmarcaPendencia(fornecedor: Fornecedor?) = viewModel.exec {
+  fun desmarcaConcluido(fornecedor: Fornecedor?) = viewModel.exec {
     fornecedor ?: fail("O fonecedor não foi selecionado")
     fornecedor.status = EStatusFornecedor.Normal
     fornecedor.update()
@@ -49,10 +49,10 @@ class TabFornecedorPendenciaViewModel(val viewModel: FornecedorViewModel) : ITab
   }
 
   private val subView
-    get() = viewModel.view.tabFornecedorPendencia
+    get() = viewModel.view.tabFornecedorConcluido
 }
 
-interface ITabFornecedorPendencia : ITabView {
+interface ITabFornecedorConcluido : ITabView {
   fun filtro(): FiltroFornecedor
   fun updateFiltro(list: List<Fornecedor>)
 }

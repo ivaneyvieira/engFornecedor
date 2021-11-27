@@ -1,5 +1,6 @@
 package br.com.astrosoft.fornecedor.view.fornecedor
 
+import br.com.astrosoft.fornecedor.model.beans.EStatusFornecedor
 import br.com.astrosoft.fornecedor.model.beans.FiltroFornecedor
 import br.com.astrosoft.fornecedor.model.beans.Fornecedor
 import br.com.astrosoft.fornecedor.model.beans.UserSaci
@@ -60,7 +61,7 @@ class TabFornecedorPendencia(val viewModel: TabFornecedorPendenciaViewModel) :
     addColumnButton(VaadinIcon.ARROW_LEFT, "Pendência", "Pend") { fornecedor ->
       viewModel.desmarcaPendencia(fornecedor)
     }.setClassNameGenerator {
-      if (it.status == 1) "marcaDiferenca" else ""
+      if (it.status == EStatusFornecedor.Pendencia) "marcaDiferenca" else ""
     }
 
     this.addHierarchyColumn(Fornecedor::vendno).apply {

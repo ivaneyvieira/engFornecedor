@@ -3,12 +3,20 @@ package br.com.astrosoft.fornecedor.model
 import br.com.astrosoft.devolucao.model.NotaEntradaVO
 import br.com.astrosoft.fornecedor.model.beans.*
 import br.com.astrosoft.framework.model.Config.appName
+import br.com.astrosoft.framework.model.ConverterBase
 import br.com.astrosoft.framework.model.DB
 import br.com.astrosoft.framework.model.QueryDB
 import br.com.astrosoft.framework.util.toSaciDate
 import org.sql2o.Query
+import org.sql2o.converters.Converter
 
 class QuerySaci : QueryDB(driver, url, username, password) {
+
+  override fun HashMap<Class<*>, Converter<*>>.addConverter(): HashMap<Class<*>, Converter<*>> {
+    this[EStatusFornecedor::class.java] = EStatusFornecedorConverter()
+    return this
+  }
+
   fun findUser(login: String?): UserSaci? {
     login ?: return null
     val sql = "/sqlSaci/userSenha.sql"
@@ -176,7 +184,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
       addOptionalParameter("vendno", fornecedor.vendno)
       addOptionalParameter("storeno", fornecedor.loja ?: 0)
       addOptionalParameter("observacao", fornecedor.observacao)
-      addOptionalParameter("status", fornecedor.status)
+      addOptionalParameter("status", fornecedor.status.cod)
     }
   }
 
@@ -191,3 +199,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
 }
 
 val saci = QuerySaci()
+
+class EStatusFornecedorConverter : ConverterBase<EStatusFornecedor>() {
+  override fun convert(value: Any?): EStatusFornecedor? {
+    return if (value is Int) {
+      EStatusFornecedor.find(value)
+    } else null
+  }
+}

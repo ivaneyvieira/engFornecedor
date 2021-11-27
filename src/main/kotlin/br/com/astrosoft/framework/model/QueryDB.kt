@@ -18,11 +18,16 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
 
   init {
     registerDriver(driver)
-    val maps = HashMap<Class<*>, Converter<*>>()
+    val maps = HashMap<Class<*>, Converter<*>>().addConverter()
     maps[LocalDate::class.java] = LocalDateConverter()
     maps[LocalTime::class.java] = LocalSqlTimeConverter()
     maps[ByteArray::class.java] = ByteArrayConverter()
+
     this.sql2o = Sql2o(url, username, password, NoQuirks(maps))
+  }
+
+  open fun HashMap<Class<*>, Converter<*>>.addConverter(): HashMap<Class<*>, Converter<*>> {
+    return this
   }
 
   private fun registerDriver(driver: String) {
@@ -159,4 +164,5 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     }
   }
 }
+
 

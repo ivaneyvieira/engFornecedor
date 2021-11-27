@@ -1,9 +1,6 @@
 package br.com.astrosoft.fornecedor.viewmodel.fornecedor
 
-import br.com.astrosoft.fornecedor.model.beans.FiltroFornecedor
-import br.com.astrosoft.fornecedor.model.beans.Fornecedor
-import br.com.astrosoft.fornecedor.model.beans.NFFile
-import br.com.astrosoft.fornecedor.model.beans.NotaEntrada
+import br.com.astrosoft.fornecedor.model.beans.*
 import br.com.astrosoft.fornecedor.model.reports.NotaEntradaReport
 import br.com.astrosoft.framework.viewmodel.ITabView
 import br.com.astrosoft.framework.viewmodel.fail
@@ -40,7 +37,7 @@ class TabFornecedorListViewModel(val viewModel: FornecedorViewModel) : ITabForne
 
   fun marcaPendencia(fornecedor: Fornecedor?)  = viewModel.exec{
     fornecedor ?: fail("O fonecedor não foi selecionado")
-    fornecedor.status = 1
+    fornecedor.status = EStatusFornecedor.Pendencia
     fornecedor.update()
     subView.updateComponent()
   }

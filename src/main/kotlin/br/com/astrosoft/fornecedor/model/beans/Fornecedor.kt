@@ -9,21 +9,12 @@ class Fornecedor(
   var obs: String,
   val loja: Int?,
   var observacao: String,
-  var status: Int,
+  var status: EStatusFornecedor,
                 ) {
   val labelTitle: String
     get() {
       val descricaoLoja = if (loja == null) "Todas as lojas" else "Loja $loja"
       return "Fornecedor: $vendno - $fornecedor $descricaoLoja"
-    }
-
-  var statusStr
-    get() = when (status) {
-      1    -> "Pendência"
-      else -> ""
-    }
-    set(value) {
-      status = if (value == "Pendência") 1 else 0
     }
 
   fun findNotas(): List<NotaEntrada> = saci.findNotas(filtroNotas())
@@ -58,3 +49,11 @@ class Fornecedor(
 }
 
 data class FiltroFornecedor(val query: String, val status: Int)
+
+enum class EStatusFornecedor(val cod: Int) {
+  Normal(0), Pendencia(1), Concluido(2);
+
+  companion object {
+    fun find(cod: Int): EStatusFornecedor? = values().firstOrNull { it.cod == cod }
+  }
+}

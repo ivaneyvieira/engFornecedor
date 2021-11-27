@@ -8,12 +8,16 @@ import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorLoja
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorNome
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorObs
-import br.com.astrosoft.fornecedor.viewmodel.fornecedor.ITabFornecedorList
-import br.com.astrosoft.fornecedor.viewmodel.fornecedor.TabFornecedorListViewModel
+import br.com.astrosoft.fornecedor.viewmodel.fornecedor.ITabFornecedorConcluido
+import br.com.astrosoft.fornecedor.viewmodel.fornecedor.TabFornecedorConcluidoViewModel
 import br.com.astrosoft.framework.model.IUser
 import br.com.astrosoft.framework.view.TabPanelTree
 import br.com.astrosoft.framework.view.addColumnButton
+import br.com.astrosoft.framework.view.textFieldEditor
+import br.com.astrosoft.framework.view.withEditor
 import com.github.mvysny.karibudsl.v10.textField
+import com.github.mvysny.kaributools.getColumnBy
+import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.icon.VaadinIcon.FILE_TABLE
@@ -23,8 +27,8 @@ import com.vaadin.flow.component.treegrid.TreeGrid
 import com.vaadin.flow.data.value.ValueChangeMode.TIMEOUT
 
 @CssImport("./styles/gridTotal.css", themeFor = "vaadin-grid")
-class TabFornecedorList(val viewModel: TabFornecedorListViewModel) : TabPanelTree<Fornecedor>(Fornecedor::class),
-        ITabFornecedorList {
+class TabFornecedorConcluido(val viewModel: TabFornecedorConcluidoViewModel) :
+        TabPanelTree<Fornecedor>(Fornecedor::class), ITabFornecedorConcluido {
   private lateinit var edtFiltro: TextField
 
   override fun HorizontalLayout.toolBarConfig() {
@@ -37,8 +41,7 @@ class TabFornecedorList(val viewModel: TabFornecedorListViewModel) : TabPanelTre
     }
   }
 
-  override fun TreeGrid<Fornecedor>.gridPanel() { //setSelectionMode(MULTI)
-
+  override fun TreeGrid<Fornecedor>.gridPanel() {
     addColumnButton(FILE_TABLE, "Notas", "Notas") { fornecedor ->
       DlgNota(viewModel).showDialogNota(fornecedor) {
         viewModel.updateView()
@@ -55,8 +58,8 @@ class TabFornecedorList(val viewModel: TabFornecedorListViewModel) : TabPanelTre
       if (it.listFiles().isNotEmpty()) "marcaDiferenca" else ""
     }
 
-    addColumnButton(VaadinIcon.ARROW_RIGHT, "Pendência", "Pend") { fornecedor ->
-      viewModel.marcaPendencia(fornecedor)
+    addColumnButton(VaadinIcon.ARROW_LEFT, "Pendência", "Pend") { fornecedor ->
+      viewModel.desmarcaConcluido(fornecedor)
     }.setClassNameGenerator {
       if (it.status == EStatusFornecedor.Pendencia) "marcaDiferenca" else ""
     }
@@ -65,13 +68,20 @@ class TabFornecedorList(val viewModel: TabFornecedorListViewModel) : TabPanelTre
       setHeader("Código")
     }
 
+    this.withEditor(Fornecedor::class, openEditor = { _ ->
+      (getColumnBy(Fornecedor::observacao).editorComponent as? Focusable<*>)?.focus()
+    }, closeEditor = { binder ->
+      viewModel.updateFornecedor(binder.bean)
+      this.dataProvider.refreshItem(binder.bean)
+    })
+
     fornecedorLoja()
     fornecedorCliente()
     fornecedorNome()
-    fornecedorObs()
+    fornecedorObs().textFieldEditor()
   }
 
-  override fun filtro(): FiltroFornecedor = FiltroFornecedor(query = edtFiltro.value ?: "", status = 0)
+  override fun filtro(): FiltroFornecedor = FiltroFornecedor(query = edtFiltro.value ?: "", status = 1)
 
   override fun updateFiltro(list: List<Fornecedor>) {
     updateGrid(list, Fornecedor::findFornecedorLoja)
@@ -79,11 +89,11 @@ class TabFornecedorList(val viewModel: TabFornecedorListViewModel) : TabPanelTre
 
   override fun isAuthorized(user: IUser): Boolean {
     val username = user as? UserSaci
-    return username?.fornecedorList == true
+    return username?.fornecedorConcluido == true
   }
 
   override val label: String
-    get() = "Fornecedor"
+    get() = "Pendências"
 
   override fun updateComponent() {
     viewModel.updateView()

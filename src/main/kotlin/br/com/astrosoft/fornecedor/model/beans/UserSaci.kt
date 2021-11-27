@@ -16,6 +16,7 @@ class UserSaci : IUser {
   override var ativo by DelegateAuthorized(0)
   var fornecedorList by DelegateAuthorized(1)
   var fornecedorPendencia by DelegateAuthorized(1)
+  var fornecedorConcluido by DelegateAuthorized(1)
 
   val fornecedor
     get() = fornecedorList
