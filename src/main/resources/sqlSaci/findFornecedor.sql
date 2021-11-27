@@ -11,7 +11,9 @@ SELECT V.no,
        V.name,
        V.email,
        V.remarks,
-       V.cgc
+       V.cgc,
+       V.c1,
+       V.s8
 FROM sqldados.vend            AS V
   INNER JOIN sqldados.vendgrv AS VG
 	       ON VG.vendno = V.no
@@ -28,7 +30,9 @@ CREATE TEMPORARY TABLE sqldados.T_FORNECEDOR (
 SELECT V.no            AS vendno,
        IFNULL(C.no, 0) AS custno,
        V.name          AS fornecedor,
-       V.remarks       AS obs
+       V.remarks       AS obs,
+       V.c1,
+       V.s8
 FROM sqldados.T_VEND       AS V
   LEFT JOIN sqldados.custp AS C
 	      ON C.cpf_cgc = V.cgc
@@ -38,16 +42,12 @@ SELECT F.vendno,
        F.custno,
        F.fornecedor,
        F.obs,
-       I.storeno AS loja,
-       I.c9      AS observacao,
-       I.s28     AS status
-FROM sqldados.inv                  AS I
-  INNER JOIN sqldados.T_FORNECEDOR AS F
-	       USING (vendno)
-WHERE I.bits & POW(2, 4) = 0
-  AND I.auxShort13 & POW(2, 15) = 0
-  AND (I.s28 = :status || :status = 0)
+       IFNULL(I.storeno, 0) AS loja,
+       IFNULL(I.c9, F.c1)   AS observacao,
+       IFNULL(I.s28, F.s8)  AS status
+FROM sqldados.T_FORNECEDOR AS F
+  LEFT JOIN sqldados.inv   AS I
+	      ON I.vendno = F.vendno AND I.bits & POW(2, 4) = 0 AND I.auxShort13 & POW(2, 15) = 0
+WHERE (IFNULL(I.s28, F.s8) = :status || :status = 0)
 GROUP BY vendno, storeno
-
-
 
