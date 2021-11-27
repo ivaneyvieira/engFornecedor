@@ -42,7 +42,7 @@ class DlgNota(val viewModel: ITabFornecedorViewModel) {
     fornecedor ?: return
     lateinit var gridNota: Grid<NotaEntrada>
     val listNotas = fornecedor.findNotas()
-    val form = SubWindowForm(fornecedor.labelTitle, toolBar = {
+    val form = SubWindowForm(fornecedor.labelTitle("Notas"), toolBar = {
       button("Relatório") {
         icon = VaadinIcon.PRINT.create()
         onLeftClick {

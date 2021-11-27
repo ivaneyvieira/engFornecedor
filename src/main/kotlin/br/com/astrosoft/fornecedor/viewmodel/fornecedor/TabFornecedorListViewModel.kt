@@ -31,7 +31,7 @@ class TabFornecedorListViewModel(val viewModel: FornecedorViewModel) : ITabForne
 
   override fun imprimirRelatorio(fornecedor: Fornecedor?, notas: List<NotaEntrada>) = viewModel.exec {
     notas.ifEmpty { fail("Não há nota selecionado") }
-    val report = NotaEntradaReport.processaRelatorio(notas, fornecedor?.labelTitle ?: "")
+    val report = NotaEntradaReport.processaRelatorio(notas, fornecedor?.labelTitle() ?: "")
     viewModel.showReport("Fornecedor", report)
   }
 

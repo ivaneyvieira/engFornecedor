@@ -5,6 +5,7 @@ import br.com.astrosoft.fornecedor.model.beans.FiltroFornecedor
 import br.com.astrosoft.fornecedor.model.beans.Fornecedor
 import br.com.astrosoft.fornecedor.model.beans.UserSaci
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorCliente
+import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorCodigo
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorLoja
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorNome
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorObs
@@ -21,6 +22,7 @@ import com.vaadin.flow.component.Focusable
 import com.vaadin.flow.component.dependency.CssImport
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.icon.VaadinIcon.FILE_TABLE
+import com.vaadin.flow.component.icon.VaadinIcon.TRASH
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout
 import com.vaadin.flow.component.textfield.TextField
 import com.vaadin.flow.component.treegrid.TreeGrid
@@ -42,30 +44,20 @@ class TabFornecedorPendencia(val viewModel: TabFornecedorPendenciaViewModel) :
   }
 
   override fun TreeGrid<Fornecedor>.gridPanel() {
-    addColumnButton(FILE_TABLE, "Notas", "Notas") { fornecedor ->
-      DlgNota(viewModel).showDialogNota(fornecedor) {
+    addColumnButton(FILE_TABLE, "Arquivo", "Arquivo") { fornecedor ->
+      DlgEditFilePendencia(viewModel).editFile(fornecedor) {
         viewModel.updateView()
       }
     }.setClassNameGenerator {
-      if (it.findNotas().isNotEmpty()) "marcaDiferenca" else ""
+      if (it.listFilePendencias().isNotEmpty()) "marcaDiferenca" else ""
     }
 
-    addColumnButton(FILE_TABLE, "Contrato", "Contrato") { fornecedor ->
-      DlgEditFileContrato(viewModel).editFile(fornecedor) {
-        viewModel.updateView()
-      }
-    }.setClassNameGenerator {
-      if (it.listFiles().isNotEmpty()) "marcaDiferenca" else ""
+    addColumnButton(TRASH, "Remove", "Remove") { fornecedor ->
+      viewModel.remove(fornecedor)
     }
 
-    addColumnButton(VaadinIcon.ARROW_LEFT, "Pendência", "Pend") { fornecedor ->
-      viewModel.desmarcaPendencia(fornecedor)
-    }.setClassNameGenerator {
-      if (it.status == EStatusFornecedor.Pendencia) "marcaDiferenca" else ""
-    }
-
-    this.addHierarchyColumn(Fornecedor::vendno).apply {
-      setHeader("Código")
+    addColumnButton(VaadinIcon.ARROW_RIGHT, "Concluir", "Concluir") { fornecedor ->
+      viewModel.marcaConcluir(fornecedor)
     }
 
     this.withEditor(Fornecedor::class, openEditor = { _ ->
@@ -76,12 +68,14 @@ class TabFornecedorPendencia(val viewModel: TabFornecedorPendenciaViewModel) :
     })
 
     fornecedorLoja()
+    fornecedorCodigo()
     fornecedorCliente()
     fornecedorNome()
     fornecedorObs().textFieldEditor()
   }
 
-  override fun filtro(): FiltroFornecedor = FiltroFornecedor(query = edtFiltro.value ?: "", status = 1)
+  override fun filtro(): FiltroFornecedor =
+          FiltroFornecedor(query = edtFiltro.value ?: "", status = EStatusFornecedor.Pendencia)
 
   override fun updateFiltro(list: List<Fornecedor>) {
     updateGrid(list, Fornecedor::findFornecedorLoja)

@@ -104,7 +104,7 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     val sql = "/sqlSaci/findFornecedor.sql"
     return query(sql, Fornecedor::class) {
       this.addOptionalParameter("query", filtro.query)
-      this.addOptionalParameter("status", filtro.status)
+      this.addOptionalParameter("status", filtro.status.cod)
     }
   }
 
@@ -169,11 +169,11 @@ class QuerySaci : QueryDB(driver, url, username, password) {
     }
   }
 
-  fun selectFile(fornecedor: Fornecedor): List<NFFile> {
+  fun selectFile(fornecedor: Fornecedor, pdvno : Int): List<NFFile> {
     val sql = "/sqlSaci/fileSelect.sql"
     return query(sql, NFFile::class) {
       addOptionalParameter("storeno", fornecedor.loja ?: 0)
-      addOptionalParameter("pdvno", 7777)
+      addOptionalParameter("pdvno", pdvno)
       addOptionalParameter("xano", fornecedor.vendno)
     }
   }

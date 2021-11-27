@@ -19,17 +19,17 @@ import com.vaadin.flow.component.upload.FileRejectedEvent
 import com.vaadin.flow.component.upload.Upload
 import com.vaadin.flow.component.upload.receivers.MultiFileMemoryBuffer
 
-class DlgEditFileContrato(val viewModel: ITabFornecedorViewModel) {
+class DlgEditFilePendencia(val viewModel: ITabFornecedorViewModel) {
   fun editFile(fornecedor: Fornecedor, onClose: (Dialog) -> Unit) {
     val grid = createFormEditFile(fornecedor)
-    val form = SubWindowForm(fornecedor.labelTitle("Contratos"), toolBar = { dialog ->
+    val form = SubWindowForm(fornecedor.labelTitle("Pendências"), toolBar = { dialog ->
       val (buffer, upload) = uploadFile()
       upload.addSucceededListener {
         val fileName = it.fileName
         val bytes = buffer.getInputStream(fileName).readBytes()
-        val nfFile = NFFile.newContrato(fornecedor, fileName, bytes)
+        val nfFile = NFFile.newPendencia(fornecedor, fileName, bytes)
         viewModel.insertFile(nfFile)
-        grid.setItems(fornecedor.listFileContratos())
+        grid.setItems(fornecedor.listFilePendencias())
         onClose(dialog)
       }
     }) {
@@ -43,7 +43,7 @@ class DlgEditFileContrato(val viewModel: ITabFornecedorViewModel) {
     return gridDetail.apply {
       addThemeVariants(GridVariant.LUMO_COMPACT)
       isMultiSort = false
-      setItems(fornecedor.listFileContratos()) //
+      setItems(fornecedor.listFilePendencias()) //
       addColumnButton(VaadinIcon.EYE, "Visualizar", "Ver") { file ->
         val form = SubWindowForm(file.nome, toolBar = { }) {
           val div = Div()
@@ -54,7 +54,7 @@ class DlgEditFileContrato(val viewModel: ITabFornecedorViewModel) {
       }
       addColumnButton(VaadinIcon.TRASH, "Remover arquivo", "Rem") { file ->
         viewModel.deleteFile(file)
-        setItems(fornecedor.listFileContratos())
+        setItems(fornecedor.listFilePendencias())
       }
       nfFileDescricao()
       nfFileData()
@@ -65,7 +65,7 @@ class DlgEditFileContrato(val viewModel: ITabFornecedorViewModel) {
     val buffer = MultiFileMemoryBuffer()
     val upload = Upload(buffer)
     upload.setAcceptedFileTypes("image/jpeg", "image/png", "application/pdf", "text/plain")
-    val uploadButton = Button("Arquivo Contrato")
+    val uploadButton = Button("Arquivo Pendência")
     upload.uploadButton = uploadButton
     upload.isAutoUpload = true
     upload.maxFileSize = 1024 * 1024 * 1024

@@ -5,6 +5,7 @@ import br.com.astrosoft.fornecedor.model.beans.FiltroFornecedor
 import br.com.astrosoft.fornecedor.model.beans.Fornecedor
 import br.com.astrosoft.fornecedor.model.beans.UserSaci
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorCliente
+import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorCodigo
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorLoja
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorNome
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorObs
@@ -52,7 +53,7 @@ class TabFornecedorList(val viewModel: TabFornecedorListViewModel) : TabPanelTre
         viewModel.updateView()
       }
     }.setClassNameGenerator {
-      if (it.listFiles().isNotEmpty()) "marcaDiferenca" else ""
+      if (it.listFileContratos().isNotEmpty()) "marcaDiferenca" else ""
     }
 
     addColumnButton(VaadinIcon.ARROW_RIGHT, "Pendência", "Pend") { fornecedor ->
@@ -61,17 +62,15 @@ class TabFornecedorList(val viewModel: TabFornecedorListViewModel) : TabPanelTre
       if (it.status == EStatusFornecedor.Pendencia) "marcaDiferenca" else ""
     }
 
-    this.addHierarchyColumn(Fornecedor::vendno).apply {
-      setHeader("Código")
-    }
-
+    fornecedorCodigo()
     fornecedorLoja()
     fornecedorCliente()
     fornecedorNome()
     fornecedorObs()
   }
 
-  override fun filtro(): FiltroFornecedor = FiltroFornecedor(query = edtFiltro.value ?: "", status = 0)
+  override fun filtro(): FiltroFornecedor =
+          FiltroFornecedor(query = edtFiltro.value ?: "", status = EStatusFornecedor.Normal)
 
   override fun updateFiltro(list: List<Fornecedor>) {
     updateGrid(list, Fornecedor::findFornecedorLoja)

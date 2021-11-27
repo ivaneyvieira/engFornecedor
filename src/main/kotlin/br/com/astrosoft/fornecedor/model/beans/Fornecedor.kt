@@ -11,20 +11,22 @@ class Fornecedor(
   var observacao: String,
   var status: EStatusFornecedor,
                 ) {
-  val labelTitle: String
-    get() {
-      val descricaoLoja = if (loja == null) "Todas as lojas" else "Loja $loja"
-      return "Fornecedor: $vendno - $fornecedor $descricaoLoja"
-    }
+  fun labelTitle(subTitle: String? = null): String {
+    val descricaoLoja = if (loja == null) "Todas as lojas" else "Loja $loja"
+    return "${if (subTitle == null) "" else "$subTitle : "}Fornecedor: $vendno - $fornecedor $descricaoLoja"
+  }
 
   fun findNotas(): List<NotaEntrada> = saci.findNotas(filtroNotas())
 
   private fun filtroNotas() = FiltroNotaEntrada(vendno, loja)
 
-  fun findFornecedorLoja() = if (loja == null) findFornecedorLoja(FiltroFornecedor(vendno.toString(), status = 0))
-  else emptyList()
+  fun findFornecedorLoja() =
+          if (loja == null) findFornecedorLoja(FiltroFornecedor(vendno.toString(), status = EStatusFornecedor.Normal))
+          else emptyList()
 
-  fun listFiles() = saci.selectFile(this)
+  fun listFileContratos() = saci.selectFile(this, 7777)
+
+  fun listFilePendencias() = saci.selectFile(this, 6666)
 
   fun update() {
     saci.updateFornecedor(this)
@@ -48,7 +50,7 @@ class Fornecedor(
   }
 }
 
-data class FiltroFornecedor(val query: String, val status: Int)
+data class FiltroFornecedor(val query: String, val status: EStatusFornecedor)
 
 enum class EStatusFornecedor(val cod: Int) {
   Normal(0), Pendencia(1), Concluido(2);

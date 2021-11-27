@@ -24,9 +24,16 @@ class TabFornecedorPendenciaViewModel(val viewModel: FornecedorViewModel) : ITab
     }
   }
 
-  fun desmarcaPendencia(fornecedor: Fornecedor?) = viewModel.exec {
+  fun remove(fornecedor: Fornecedor?) = viewModel.exec {
     fornecedor ?: fail("O fonecedor não foi selecionado")
     fornecedor.status = EStatusFornecedor.Normal
+    fornecedor.update()
+    subView.updateComponent()
+  }
+
+  fun marcaConcluir(fornecedor: Fornecedor?) = viewModel.exec {
+    fornecedor ?: fail("O fonecedor não foi selecionado")
+    fornecedor.status = EStatusFornecedor.Concluido
     fornecedor.update()
     subView.updateComponent()
   }
@@ -38,7 +45,7 @@ class TabFornecedorPendenciaViewModel(val viewModel: FornecedorViewModel) : ITab
 
   override fun imprimirRelatorio(fornecedor: Fornecedor?, notas: List<NotaEntrada>) = viewModel.exec {
     notas.ifEmpty { fail("Não há nota selecionado") }
-    val report = NotaEntradaReport.processaRelatorio(notas, fornecedor?.labelTitle ?: "")
+    val report = NotaEntradaReport.processaRelatorio(notas, fornecedor?.labelTitle() ?: "")
     viewModel.showReport("Fornecedor", report)
   }
 

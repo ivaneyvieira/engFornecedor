@@ -5,6 +5,7 @@ import br.com.astrosoft.fornecedor.model.beans.FiltroFornecedor
 import br.com.astrosoft.fornecedor.model.beans.Fornecedor
 import br.com.astrosoft.fornecedor.model.beans.UserSaci
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorCliente
+import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorCodigo
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorLoja
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorNome
 import br.com.astrosoft.fornecedor.view.fornecedor.columns.FornecedorViewColumns.fornecedorObs
@@ -42,46 +43,15 @@ class TabFornecedorConcluido(val viewModel: TabFornecedorConcluidoViewModel) :
   }
 
   override fun TreeGrid<Fornecedor>.gridPanel() {
-    addColumnButton(FILE_TABLE, "Notas", "Notas") { fornecedor ->
-      DlgNota(viewModel).showDialogNota(fornecedor) {
-        viewModel.updateView()
-      }
-    }.setClassNameGenerator {
-      if (it.findNotas().isNotEmpty()) "marcaDiferenca" else ""
-    }
-
-    addColumnButton(FILE_TABLE, "Contrato", "Contrato") { fornecedor ->
-      DlgEditFileContrato(viewModel).editFile(fornecedor) {
-        viewModel.updateView()
-      }
-    }.setClassNameGenerator {
-      if (it.listFiles().isNotEmpty()) "marcaDiferenca" else ""
-    }
-
-    addColumnButton(VaadinIcon.ARROW_LEFT, "Pendência", "Pend") { fornecedor ->
-      viewModel.desmarcaConcluido(fornecedor)
-    }.setClassNameGenerator {
-      if (it.status == EStatusFornecedor.Pendencia) "marcaDiferenca" else ""
-    }
-
-    this.addHierarchyColumn(Fornecedor::vendno).apply {
-      setHeader("Código")
-    }
-
-    this.withEditor(Fornecedor::class, openEditor = { _ ->
-      (getColumnBy(Fornecedor::observacao).editorComponent as? Focusable<*>)?.focus()
-    }, closeEditor = { binder ->
-      viewModel.updateFornecedor(binder.bean)
-      this.dataProvider.refreshItem(binder.bean)
-    })
-
     fornecedorLoja()
+    fornecedorCodigo()
     fornecedorCliente()
     fornecedorNome()
-    fornecedorObs().textFieldEditor()
+    fornecedorObs()
   }
 
-  override fun filtro(): FiltroFornecedor = FiltroFornecedor(query = edtFiltro.value ?: "", status = 1)
+  override fun filtro(): FiltroFornecedor =
+          FiltroFornecedor(query = edtFiltro.value ?: "", status = EStatusFornecedor.Concluido)
 
   override fun updateFiltro(list: List<Fornecedor>) {
     updateGrid(list, Fornecedor::findFornecedorLoja)
@@ -93,7 +63,7 @@ class TabFornecedorConcluido(val viewModel: TabFornecedorConcluidoViewModel) :
   }
 
   override val label: String
-    get() = "Pendências"
+    get() = "Concluir"
 
   override fun updateComponent() {
     viewModel.updateView()
